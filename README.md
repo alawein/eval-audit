@@ -7,7 +7,7 @@ missing and unexpected records, including errored records that retain a score.
 ## Run
 
 Python 3.13+. Download the wheel from this repository's Releases and install it
-with `python -m pip install path/to/eval_audit-0.1.0-py3-none-any.whl`.
+with `python -m pip install path/to/eval_audit-0.1.1-py3-none-any.whl`.
 No runtime dependencies. From a clone:
 
 ```sh

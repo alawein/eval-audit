@@ -10,8 +10,8 @@
   "errored_with_score_ids": [],
   "exit_code": 1,
   "inputs": {
-    "manifest_sha256": "b59ed92e5e5798322dd5507e815a2f2e2c3f1c50a7685b6afce40c18c9a1ead3",
-    "records_sha256": "795df4bade8aa39374e23deef823f2c6e21c881acb66c2055b68f33148c53ef4"
+    "manifest_sha256": "19bbc1187511d78fda3b6c028ee34c2d056c14004b4f8da67f7a3436dd9c4de3",
+    "records_sha256": "90114e394ad6d128c0e6daeb0fef62928f4a4a3c1539c7239d2fea1a9d6c7555"
   },
   "missing_ids": [
     "case-4"
