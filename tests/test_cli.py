@@ -1,11 +1,10 @@
+import pytest
+
 from eval_audit.cli import main
 
 
-def test_main_greets_by_name(capsys):
-    assert main(["world"]) == 0
-    assert capsys.readouterr().out == "hello, world\n"
-
-
-def test_main_defaults_to_world(capsys):
-    assert main([]) == 0
-    assert capsys.readouterr().out == "hello, world\n"
+def test_help(capsys):
+    with pytest.raises(SystemExit) as exc:
+        main(["--help"])
+    assert exc.value.code == 0
+    assert "manifest" in capsys.readouterr().out

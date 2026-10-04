@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "run_id": "synthetic-coverage-01",
+  "expected_ids": [
+    "case-1",
+    "case-2",
+    "case-3",
+    "case-4"
+  ]
+}

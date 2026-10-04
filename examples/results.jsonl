@@ -1,0 +1,3 @@
+{"id": "case-1", "status": "scored", "score": 1, "reason": "Expected answer matched"}
+{"id": "case-2", "status": "errored", "score": null, "reason": "Synthetic solver timeout"}
+{"id": "case-3", "status": "unscored", "score": null, "reason": "Synthetic grader produced no verdict"}

@@ -1,0 +1,23 @@
+{
+  "counts": {
+    "errored": 1,
+    "expected": 4,
+    "missing": 1,
+    "score_present": 1,
+    "scored": 1,
+    "unscored": 1
+  },
+  "errored_with_score_ids": [],
+  "exit_code": 1,
+  "inputs": {
+    "manifest_sha256": "b59ed92e5e5798322dd5507e815a2f2e2c3f1c50a7685b6afce40c18c9a1ead3",
+    "records_sha256": "795df4bade8aa39374e23deef823f2c6e21c881acb66c2055b68f33148c53ef4"
+  },
+  "missing_ids": [
+    "case-4"
+  ],
+  "run_id": "synthetic-coverage-01",
+  "schema_version": 1,
+  "score_present_coverage": 0.25,
+  "unexpected_ids": []
+}
