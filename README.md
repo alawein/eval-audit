@@ -7,13 +7,18 @@ missing and unexpected records, including errored records that retain a score.
 ## Run
 
 Python 3.13+. Download the wheel from this repository's Releases and install it
-with `python -m pip install path/to/eval_audit-0.1.1-py3-none-any.whl`.
+with `python -m pip install path/to/eval_audit-0.2.0-py3-none-any.whl`.
 No runtime dependencies. From a clone:
 
 ```sh
 uv sync --frozen
-uv run eval-audit examples/manifest.json examples/results.jsonl --html report.html
+uv run eval-audit examples/manifest.json examples/results.jsonl
 ```
+
+JSON prints to stdout by default, so a first run writes nothing to the repo. Add
+`--html report.html` or `--json report.json` for files; reruns over an existing
+path need `--force`. `eval-audit --help` shows the manifest and JSONL shapes, the
+standard invocations, and exit-code meanings.
 
 The synthetic example exits **1**: four expected IDs, one scored, one errored,
 one unscored and one missing. Score-present coverage is 0.25. Exit 0 means a
@@ -28,8 +33,12 @@ guessed. Zero is a present score. Unexpected records do not inflate counts.
 No accuracy, quality, means or rankings. It cannot verify the supplied population
 or whether a partial score is usable. Native framework diagnostics remain useful.
 
-[Input contract](docs/contract.md), [test evidence](docs/evaluation.md),
-[usefulness exercise](docs/usefulness.md), [provenance](docs/provenance.md).
+Troubleshooting: status, score, and reason errors name the JSONL row (for example
+`invalid status at record 2`); open that line before editing the file. The HTML
+report's how-to-read section explains missing, unexpected, errored with score,
+unscored, score-present coverage, and exit codes. [Input contract](docs/contract.md),
+[test evidence](docs/evaluation.md), [usefulness exercise](docs/usefulness.md),
+[provenance](docs/provenance.md).
 
 ## Develop
 

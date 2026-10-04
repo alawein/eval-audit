@@ -69,17 +69,23 @@ def validate(manifest: dict, records: list[dict]) -> None:
     for index, row in enumerate(records, 1):
         fields(row, {"id", "status", "score", "reason"}, f"record {index}")
         text(row["id"], 200, f"ID at record {index}")
-        require(row["id"] not in seen, f"duplicate record ID: {row['id']}")
+        require(row["id"] not in seen, f"duplicate record ID at record {index}: {row['id']}")
         seen.add(row["id"])
-        require(row["status"] in ("scored", "errored", "unscored"), "invalid status")
-        text(row["reason"], 4000, "reason", nonempty=False)
+        require(
+            row["status"] in ("scored", "errored", "unscored"), f"invalid status at record {index}"
+        )
+        text(row["reason"], 4000, f"reason at record {index}", nonempty=False)
         score = row["score"]
         require(
             score is None or type(score) is int or (type(score) is float and math.isfinite(score)),
-            "score must be finite or null",
+            f"score must be finite or null at record {index}",
         )
-        require(row["status"] != "scored" or score is not None, "scored needs score")
-        require(row["status"] != "unscored" or score is None, "unscored needs null")
+        require(
+            row["status"] != "scored" or score is not None, f"scored needs score at record {index}"
+        )
+        require(
+            row["status"] != "unscored" or score is None, f"unscored needs null at record {index}"
+        )
 
 
 def load_inputs(manifest_path: Path, records_path: Path) -> tuple[dict, list[dict], dict]:
