@@ -30,9 +30,10 @@ def render_html(report: dict) -> str:
         "<li>Unscored records have no usable number. Score-present coverage counts "
         "scored plus errored-with-score over the expected population size: "
         "availability, not accuracy.</li>"
-        f"<li>Exit code {html.escape(str(report.get('exit_code', '')))}: "
-        "0 means a complete scored population, 1 means missing, unexpected, "
-        "errored, or unscored work remains, 2 means invalid input or I/O.</li>"
+        "<li>Exit codes: 0 means a complete scored population; 1 means missing, "
+        "unexpected, errored, or unscored work remains; 2 means invalid input or "
+        "I/O. This report: "
+        f"{html.escape(str(report.get('exit_code', '')))}.</li>"
         "</ul>"
         + _id_list("Missing IDs", report.get("missing_ids"))
         + _id_list("Unexpected IDs", report.get("unexpected_ids"))

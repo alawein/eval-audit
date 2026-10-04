@@ -69,7 +69,7 @@ def validate(manifest: dict, records: list[dict]) -> None:
     for index, row in enumerate(records, 1):
         fields(row, {"id", "status", "score", "reason"}, f"record {index}")
         text(row["id"], 200, f"ID at record {index}")
-        require(row["id"] not in seen, f"duplicate record ID: {row['id']}")
+        require(row["id"] not in seen, f"duplicate record ID at record {index}: {row['id']}")
         seen.add(row["id"])
         require(
             row["status"] in ("scored", "errored", "unscored"), f"invalid status at record {index}"

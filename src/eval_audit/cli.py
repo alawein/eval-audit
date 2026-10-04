@@ -6,6 +6,14 @@ from eval_audit.contract import InputError, load_inputs, require
 from eval_audit.core import audit
 from eval_audit.report import render_html, render_json
 
+try:
+    from importlib.metadata import PackageNotFoundError
+    from importlib.metadata import version as _package_version
+
+    __version__ = _package_version("eval-audit")
+except PackageNotFoundError:
+    __version__ = "0.2.0"
+
 
 def same_location(left: Path, right: Path) -> bool:
     if left.resolve() == right.resolve():
@@ -30,7 +38,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--json", type=Path, help="write the JSON report to PATH")
     parser.add_argument("--html", type=Path, help="write the HTML report to PATH")
     parser.add_argument("--force", action="store_true", help="overwrite existing output files")
-    parser.add_argument("--version", action="version", version="eval-audit 0.2.0")
+    parser.add_argument("--version", action="version", version=f"eval-audit {__version__}")
     args = parser.parse_args(argv)
     try:
         manifest, records, hashes = load_inputs(args.manifest, args.records)

@@ -4,7 +4,7 @@ import pytest
 from test_audit import manifest as make_manifest
 from test_audit import row as make_row
 
-from eval_audit.cli import main
+from eval_audit.cli import __version__, main
 from eval_audit.contract import InputError, validate
 from eval_audit.core import audit
 from eval_audit.report import render_html
@@ -75,4 +75,48 @@ def test_report_escapes_imported_text():
     report = audit(make_manifest(["a", "<script>"]), [make_row(identifier="a")])
     page = render_html(report)
     assert "<script>" not in page
+    assert "&lt;script&gt;" in page
+
+
+def test_version_flag_prints_carried_version(capsys):
+    with pytest.raises(SystemExit) as exc:
+        main(["--version"])
+    assert exc.value.code == 0
+    out = capsys.readouterr().out.strip()
+    assert out == f"eval-audit {__version__}"
+    assert __version__[0].isdigit()
+
+
+def test_reason_and_score_errors_carry_row_two():
+    overflow = make_row()
+    overflow.update({"id": "b", "reason": "x" * 4001})
+    with pytest.raises(InputError) as excinfo:
+        validate(make_manifest(), [make_row(), overflow])
+    assert "record 2" in str(excinfo.value)
+    nonfinite = make_row()
+    nonfinite.update({"id": "b", "score": float("nan")})
+    with pytest.raises(InputError) as excinfo:
+        validate(make_manifest(), [make_row(), nonfinite])
+    assert "record 2" in str(excinfo.value)
+
+
+def test_duplicate_record_error_names_row():
+    duplicate = {"id": "b", "status": "scored", "score": 1, "reason": ""}
+    with pytest.raises(InputError) as excinfo:
+        validate(make_manifest(["a", "b"]), [make_row(), duplicate, dict(duplicate)])
+    assert "record 3" in str(excinfo.value)
+
+
+def test_report_escapes_unexpected_and_errored_lists():
+    report = audit(
+        make_manifest(["a"]),
+        [
+            make_row(),
+            make_row("errored", 0.5, identifier="<b>err</b>"),
+            make_row("unscored", None, identifier="<script>"),
+        ],
+    )
+    page = render_html(report)
+    assert "<script>" not in page
+    assert "&lt;b&gt;err" in page
     assert "&lt;script&gt;" in page
