@@ -14,3 +14,4 @@ Format: `YYYY-MM-DD | area | what happened | rule`
 
 - 2026-10-04 | setup | Repo created from the kit starter | Run the check command once before the first change.
 - 2026-10-04 | discoverability | Help, row-index errors, and a how-to-read legend landed without touching report.json | Keep JSON bytes pinned while HTML explanations grow.
+- 2026-10-04 | review-lanes | Version/help literals drift from pyproject on the next bump | Read the version from package metadata and pin --help and --version with tests.
