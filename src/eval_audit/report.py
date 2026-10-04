@@ -41,15 +41,26 @@ def render_html(report: dict) -> str:
     return (
         '<!doctype html><html lang="en"><head><meta charset="utf-8">'
         '<meta name="viewport" content="width=device-width,initial-scale=1">'
+        '<meta name="description" content="Coverage of supplied evaluation records: '
+        'scored, errored, unscored, missing and unexpected, with input hashes.">'
+        '<meta name="theme-color" content="#f4f6f5">'
         "<title>Eval audit | coverage report</title><style>"
-        "body{margin:0;background:#f4f6f5;color:#142c2a;font:17px/1.6 system-ui}"
-        "main{max-width:980px;margin:auto;padding:36px 20px}h1{font-size:2.8rem}"
+        ":root{color-scheme:light}"
+        "body{margin:0;background:#f4f6f5;color:#142c2a;font:17px/1.6 system-ui;"
+        "-webkit-tap-highlight-color:transparent}"
+        "main{max-width:980px;margin:auto;padding:36px 20px}"
+        "h1{font-size:2.8rem;text-wrap:balance}h2,h3{text-wrap:balance}"
+        ".eyebrow{letter-spacing:.12em;font-size:.85rem}"
         ".cards{display:flex;flex-wrap:wrap;gap:12px}.card{background:white;"
         "border:1px solid #baccc6;border-radius:12px;padding:16px;flex:1 1 110px}"
-        ".card strong{display:block;font-size:2rem}.card span{display:block}"
+        ".card strong{display:block;font-size:2rem;font-variant-numeric:tabular-nums}"
+        ".card span{display:block}"
         "pre{background:#fff;padding:20px;border:1px solid #baccc6;"
-        "white-space:pre-wrap;overflow-wrap:anywhere}a{color:#075851}"
-        "</style></head><body><main><p>LOCAL EVIDENCE / EXPLICIT POPULATION</p>"
+        "white-space:pre-wrap;overflow-wrap:anywhere}"
+        "a{color:#075851}a:hover{text-decoration:underline}"
+        ":focus-visible{outline:3px solid #075851;outline-offset:3px}"
+        '</style></head><body><main><p class="eyebrow">LOCAL EVIDENCE / '
+        "EXPLICIT POPULATION</p>"
         "<h1>Eval audit</h1><p>Coverage of supplied records, not model accuracy.</p>"
         '<div class="cards">'
         + cards
