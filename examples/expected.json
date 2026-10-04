@@ -1,0 +1,14 @@
+{
+  "counts": {
+    "expected": 4,
+    "scored": 1,
+    "errored": 1,
+    "unscored": 1,
+    "missing": 1,
+    "score_present": 1
+  },
+  "missing_ids": [
+    "case-4"
+  ],
+  "exit_code": 1
+}
