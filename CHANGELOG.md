@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.0
+
+- CLI discoverability: per-argument help, standard invocations and exit codes in --help,
+  plus --version.
+- Row-index context in status, score, and reason validation messages.
+- HTML how-to-read legend (missing, unexpected, errored with score, unscored,
+  score-present coverage, exit codes) with escaped ID lists; report.json bytes unchanged.
+
 ## 0.1.1
 
 - Regenerate committed example report hashes from the canonical LF input files.

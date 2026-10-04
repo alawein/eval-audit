@@ -13,3 +13,4 @@ Format: `YYYY-MM-DD | area | what happened | rule`
 ## Log
 
 - 2026-10-04 | setup | Repo created from the kit starter | Run the check command once before the first change.
+- 2026-10-04 | discoverability | Help, row-index errors, and a how-to-read legend landed without touching report.json | Keep JSON bytes pinned while HTML explanations grow.

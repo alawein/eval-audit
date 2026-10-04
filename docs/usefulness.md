@@ -5,11 +5,11 @@ examples/. No external participant, adoption, timed study or independent labeler
 
 Baseline: inspect the manifest and three rows. case-1 scored; case-2 errored;
 case-3 unscored; set subtraction gives missing case-4. One of four expected IDs
-has a score. Available-score mean1 does not establish complete coverage. These
+has a score. Available-score mean 1 does not establish complete coverage. These
 expectations were fixed from the declared inputs before implementation.
 
-Actual CLI: expected4/scored1/errored1/unscored1/missing1/score_present1,
-coverage0.25, missing case-4, exit1. No unexpected ID or partial errored score in
+Actual CLI: expected 4/scored 1/errored 1/unscored 1/missing 1/score_present 1,
+coverage 0.25, missing case-4, exit 1. No unexpected ID or partial errored score in
 this specimen; separate tests exercise both. No false alarm against this bounded
 task, with no general false-positive rate. Byte hashes: examples/report.json.
 

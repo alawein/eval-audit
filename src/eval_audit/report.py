@@ -6,12 +6,37 @@ def render_json(report: dict) -> str:
     return json.dumps(report, sort_keys=True, indent=2, allow_nan=False) + "\n"
 
 
+def _id_list(title: str, values: object) -> str:
+    if not isinstance(values, list) or not values:
+        return ""
+    items = "".join(f"<li>{html.escape(str(v))}</li>" for v in values)
+    return f"<h3>{html.escape(title)}</h3><ul>{items}</ul>"
+
+
 def render_html(report: dict) -> str:
     content = html.escape(render_json(report))
     cards = "".join(
         f'<div class="card"><strong>{html.escape(str(v))}</strong>'
         f"<span>{html.escape(k.replace('_', ' '))}</span></div>"
         for k, v in report.get("counts", {}).items()
+    )
+    how_to = (
+        "<h2>How to read this report</h2>"
+        "<ul>"
+        "<li>Missing lists expected IDs with no record; Unexpected lists records "
+        "outside the expected population and never inflates counts.</li>"
+        "<li>Errored records failed during evaluation; errored with score keeps a "
+        "partial number, and those IDs are listed separately.</li>"
+        "<li>Unscored records have no usable number. Score-present coverage counts "
+        "scored plus errored-with-score over the expected population size: "
+        "availability, not accuracy.</li>"
+        f"<li>Exit code {html.escape(str(report.get('exit_code', '')))}: "
+        "0 means a complete scored population, 1 means missing, unexpected, "
+        "errored, or unscored work remains, 2 means invalid input or I/O.</li>"
+        "</ul>"
+        + _id_list("Missing IDs", report.get("missing_ids"))
+        + _id_list("Unexpected IDs", report.get("unexpected_ids"))
+        + _id_list("Errored with score", report.get("errored_with_score_ids"))
     )
     return (
         '<!doctype html><html lang="en"><head><meta charset="utf-8">'
@@ -28,7 +53,9 @@ def render_html(report: dict) -> str:
         "<h1>Eval audit</h1><p>Coverage of supplied records, not model accuracy.</p>"
         '<div class="cards">'
         + cards
-        + "</div><h2>Inspectable report</h2><pre>"
+        + "</div>"
+        + how_to
+        + "<h2>Inspectable report</h2><pre>"
         + content
         + "</pre>"
         "<p>Hashes bind bytes, not authenticity. This is a static executed example.</p>"
