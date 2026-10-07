@@ -1,8 +1,14 @@
-# Eval audit
+# Eval Audit
 
-Find missing evaluation records before interpreting scores. Declare the expected
-IDs and supply JSONL results. Eval audit separates scored, errored, unscored,
-missing and unexpected records, including errored records that retain a score.
+Find gaps in evaluation results before interpreting the scores.
+
+![Evaluation coverage](assets/label-purpose.svg)
+![Python](assets/label-stack.svg)
+![Offline CLI](assets/label-runtime.svg)
+
+Declare the expected IDs and supply JSONL results. Eval Audit separates scored,
+errored, unscored, missing, and unexpected records, including errored records
+that retain a score.
 
 ## Run
 
