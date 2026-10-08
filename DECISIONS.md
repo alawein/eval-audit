@@ -114,3 +114,16 @@ publisher, changed file, extra/duplicate entry, unavailable proof or failed requ
 stops the attempt. No blind skip-existing switch is used. Offline synthetic
 publisher integration tests reproduce the actual sidecar paths and partial upload
 transitions; these do not simulate OIDC or establish actual live publication.
+
+## Bounded registry propagation retry (2026-10-08)
+
+The coordinator observed outcome-check release run 37824835131 upload successfully
+before immediate version metadata verification reported incomplete inventory.
+Later retained-byte and provenance reconciliation confirmed the complete release.
+Complete postflight verification now permits five metadata attempts with delays
+2, 5, 10 and 20 seconds (37 seconds accumulated sleep, plus verification time).
+Only absent version metadata or missing canonical files can retry. Every visible
+file is reverified on each attempt; duplicate/extra inventory, checksum mismatch,
+artifact download failure and missing/foreign provenance fail immediately.
+Preflight missing-only staging remains immediate. No runtime or study behavior
+changes, and no assertion of eval-audit live publication follows from these tests.
