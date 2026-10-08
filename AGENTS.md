@@ -19,3 +19,16 @@ synthetic report. Push, check, review and merge within that scope. This scoped
 permission supersedes the starter's owner-only merge rule. GitHub-only package
 distribution and Pages are approved tool-class exceptions. New scope requires
 the owner's instructions. Never bypass a hook or weaken protection to merge.
+
+The owner selected chat option (b) on October 8, 2026: complete the reviewed
+v0.3.0 release delivery for alawein/claim-review, alawein/eval-audit and
+alawein/outcome-check, targeting main. This explicitly authorizes merging the
+existing hardening PRs, registry trusted-publisher configuration, v0.3.0 tags,
+npm/PyPI publication and GitHub Releases. It is the plain-language equivalent
+of profile execution mode (c) for this named scope, not profile mode (b).
+
+Pages deployment, GitHub repository/security/Dependabot settings, operational
+secret creation or rotation, branch deletion, force pushes and unrelated remote
+changes remain unauthorized. Publishing requires verified existing registry
+access; missing authentication blocks registry-dependent actions, not the merge.
+Preserve the feature branches. No new repositories or kohyr copies.
