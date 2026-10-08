@@ -70,8 +70,11 @@ Fresh committed clone `f5668dc` then passed 105 tests and the same checks.
 Independent review reproduced UTF-8 expansion beyond the canonical input cap
 and uncaught corrupt DEFLATE/LZMA decoders. All four regression cases failed
 before fixes, and pass with UTF-8 JSONL, byte-cap validation before staging,
-and controlled decoder failures. The final committed clone is checked again
-before handoff.
+and controlled decoder failures. Fresh clone of final source commit
+`b41a51b381423af6f0df94344b60537d06e9d658` passed all **109 tests**, frozen sync,
+Ruff check/format, mypy, Pyright, every example schema validation, wheel/sdist
+builds and Twine metadata validation. Its Git status remained clean. The final
+source wheel and sdist separately installed and passed their isolated CLI smoke.
 
 ## Shared hardening and publication gates
 
