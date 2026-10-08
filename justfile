@@ -18,7 +18,14 @@ build:
     uv build
 
 # Everything the pull request checks run, plus the build.
-check: lint test build
+check: lint test types schemas build
+
+types:
+    uv run mypy src/eval_audit
+    uv run pyright src/eval_audit
+
+schemas:
+    uv run python scripts/validate_schemas.py
 
 # Apply the automatic fixes.
 fix:
