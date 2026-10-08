@@ -127,3 +127,14 @@ file is reverified on each attempt; duplicate/extra inventory, checksum mismatch
 artifact download failure and missing/foreign provenance fail immediately.
 Preflight missing-only staging remains immediate. No runtime or study behavior
 changes, and no assertion of eval-audit live publication follows from these tests.
+
+## Existing release note reconciliation (2026-10-08)
+
+The coordinator created the factual GitHub-only v0.3.1 release after canonical
+run 37828182517 failed PyPI authentication with invalid-publisher. A subsequent
+successful authenticated recovery must replace that pending registry statement.
+The release helper now updates notes for an existing release only after every
+existing asset and complete upload readback match canonical bytes. Conflicting
+existing assets or corrupt readback stop before editing notes. Tags, version,
+core behavior and artifacts remain unchanged; live registry setup remains pending
+owner-entered sensitive-action password confirmation and name acceptance.

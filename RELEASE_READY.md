@@ -17,7 +17,14 @@ merge, tags, release, Pages and non-Dependabot controls. No repeated approval is
 needed for that named scope. Preserve feature branches and avoid `--delete-branch`,
 `--admin`, force pushes or rewritten tags. Dependabot's entire family is excluded.
 
-Maintenance distribution `alawein-eval-audit` version 0.3.1 is implemented locally.
+Maintenance distribution `alawein-eval-audit` version 0.3.1 merged at
+`af0eacba86add5311e901467352619fe01e53135`. Its immutable `v0.3.1` tag and
+[GitHub Release](https://github.com/alawein/eval-audit/releases/tag/v0.3.1) exist.
+[Canonical release run](https://github.com/alawein/eval-audit/actions/runs/37828182517)
+retained the canonical artifacts but registry authentication failed with
+`invalid-publisher`. The public GitHub-only release records that actual state.
+[Pages run](https://github.com/alawein/eval-audit/actions/runs/37828182476)
+succeeded at the merged revision. The merged test suite passed 157 cases.
 Repository `eval-audit`, module `eval_audit` and command `eval-audit` are unchanged.
 Pending-publisher acceptance and publication have not completed: the authenticated
 PyPI session needs owner-entered sensitive-action password confirmation. This is
@@ -29,8 +36,9 @@ before trying the authorized `alawein-evaluation-audit` alternative.
 
 Register the accepted project's [pending publisher](https://pypi.org/manage/account/publishing/):
 GitHub owner `alawein`, repository `eval-audit`, workflow `release.yml`, environment
-`pypi`. After reviewed checks and merge, tag the exact main revision `v0.3.1`.
-Check that the tag is absent before creating it; never alter `v0.3.0`.
+`pypi`. The existing immutable `v0.3.1` tag retains the merged revision; never alter it
+or `v0.3.0`. After publisher acceptance, reconcile retained canonical bytes and
+exact provenance through the coordinator-owned recovery path.
 
 The tag-only release workflow builds once with the locked backend, verifies exact
 wheel/sdist metadata and SHA-256, attests them, then retains
