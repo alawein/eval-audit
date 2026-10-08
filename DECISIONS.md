@@ -36,3 +36,17 @@ hosting. A release tag starts trusted package publication, so the tag requires
 both tag and registry publication authorization. npm first-publication bootstrap,
 if needed, is a separate owner-approved publication using existing access; this
 run does not create secrets or bypass registry setup.
+
+## PyPI first-publication finding (2026-10-08)
+
+The unauthenticated project JSON endpoint returned 404 for `eval-audit`, but this
+did not prove that PyPI would accept the name. The authenticated pending-publisher
+form rejected it with "This project name is too similar to an existing project."
+The planned distribution name is therefore blocked even though no package exists
+at that exact JSON endpoint. No package was published under another name.
+
+Propose `alawein-eval-audit` as the distribution-name alternative, subject to
+PyPI's name checks and explicit owner selection. Keep the GitHub repository,
+`eval_audit` import package, and `eval-audit` command unchanged. A renamed
+distribution needs updated metadata, lockfile, docs, and a release version/tag
+decision before publication; do not silently reinterpret the approved v0.3.0 tag.
