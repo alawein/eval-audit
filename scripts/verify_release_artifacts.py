@@ -70,6 +70,7 @@ def main() -> None:
         args.manifest.with_name("SHA256SUMS").write_text(
             "".join(f"{digest}  {filename}\n" for filename, digest in hashes.items()),
             encoding="utf-8",
+            newline="\n",
         )
     verify(args.directory, args.manifest, name, version)
     print("PASS: exact distribution inventory, metadata and SHA-256")

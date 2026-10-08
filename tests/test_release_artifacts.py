@@ -2,6 +2,7 @@ import hashlib
 import importlib.util
 import io
 import json
+import sys
 import tarfile
 import zipfile
 from pathlib import Path
@@ -40,6 +41,19 @@ def artifacts(tmp_path, name="alawein-eval-audit", version="0.3.1"):
 
 def test_exact_inventory_and_metadata(tmp_path):
     directory, manifest = artifacts(tmp_path)
+    assert len(verifier.verify(directory, manifest, "alawein-eval-audit", "0.3.1")) == 2
+
+
+def test_create_checksum_inventory_has_exact_lf_bytes(tmp_path, monkeypatch):
+    directory, manifest = artifacts(tmp_path)
+    monkeypatch.chdir(Path(__file__).parents[1])
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        ["verify_release_artifacts.py", str(directory), "--manifest", str(manifest), "--create"],
+    )
+    verifier.main()
+    assert b"\r" not in manifest.with_name("SHA256SUMS").read_bytes()
     assert len(verifier.verify(directory, manifest, "alawein-eval-audit", "0.3.1")) == 2
 
 
