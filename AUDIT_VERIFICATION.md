@@ -23,10 +23,10 @@ Runtime dependency list is empty; development lock contains pytest and Ruff.
 | Python floor 3.13 unnecessarily restrictive | Confirmed floor; no inspected runtime syntax needs 3.13 | `pyproject.toml` requires >=3.13; lowering and actual matrix tests planned |
 | Writes may truncate existing output | Confirmed | `cli.py:64-68` writes target directly |
 | No schemas/property tests | Confirmed | No schema directory or Hypothesis dev dependency/tests |
-| Historical counts disagree | Current count resolved | 46 collected and passed at specified baseline; historical PR/check evidence owned by root |
+| Historical counts disagree | Confirmed baseline count; history treated separately | 46 collected and passed at specified baseline; historical PR/check evidence owned by root |
 | Synthetic-only empirical evidence | Confirmed baseline | examples and usefulness docs synthetic; public study owned by root |
-| Name collisions | Partial | README lacks disambiguation; externally verified registry/name evidence owned by root |
-| Registry/security/first-PR checks | Partial, remote verification pending | Root owns checks, settings and release-readiness documentation |
+| Name collisions | Partially confirmed | README lacks disambiguation; externally verified registry/name evidence owned by root |
+| Registry/security/first-PR checks | Partially confirmed; remote facts checked below | Root owns checks, settings and release-readiness documentation |
 
 No source changes were made before these checks. Review claims about other two
 repositories are outside this checkout; their assigned agents own verification.
@@ -88,7 +88,7 @@ source wheel and sdist separately installed and passed their isolated CLI smoke.
 | README/changelog/contract | Done | Version 0.3.0 and candid scope documented; primary related-work sources opened and checked before citation. |
 | Merge/tag/release/publish | Prepared, blocked by owner gates | `RELEASE_READY.md` includes commands and registry setup, and `RELEASE_NOTES.md` is ready for the release gate. |
 | Final independent review | Done | Independent review found two eval adapter defects; both reproduced, regression-tested and independently rechecked after fixes. No remaining review findings. |
-| Final clean-clone verification | Underway | Fresh dependency installation, tests, lint, types, schemas and artifact builds are required before push. |
+| Final clean-clone verification | Done | Fresh installs, full suites, lint/types, schemas and artifacts passed; exact coordinator evidence below. |
 | Push and one draft PR | Pending authorized execution | Only `feat/v0.3.0-hardening` may be pushed; no merge/main/tag/deploy/settings change. |
 
 ### Study status
@@ -101,3 +101,27 @@ three-sample run. The archived source is excluded from Git; download and SHA-256
 are documented. This is not an estimate for larger evaluation populations.
 The PyPI project lookup returned 404 on October 8, 2026; availability was checked,
 not reserved. Disambiguation is included in the README.
+
+### Historical checks and registry readback
+
+First release PR #1 had 30 successful Actions checks; the remaining CodeRabbit
+StatusContext was PENDING, not a failed Actions job. No failing build was inferred
+from 30/31. [Historical checks](https://github.com/alawein/eval-audit/pull/1/checks).
+The public PyPI project endpoint returned 404 for `eval-audit` on October 8, 2026;
+that lookup does not reserve a name. Hosted Dependabot security updates and
+alerts are disabled according to read-only API readback, detailed in
+SECURITY_SETTINGS.md. Their re-enablement remains gated.
+
+### Coordinator final verification
+
+Coordinator clean clone at 8f6e67f with fresh copied Python 3.13.9 environment:
+frozen install, 109 tests, Ruff check/format, mypy, Pyright, every canonical and
+four adapter fixtures' schemas, python -m build and Twine checks passed.
+The public-log study reproduced committed results without tracked changes.
+pip-audit --local reported no known vulnerabilities in installed dependencies;
+the unpublished eval-audit package itself was explicitly skipped.
+
+All repository workflows pass local actionlint, and Markdown lint passes.
+Remote main remained at the Phase 0 commit before branch publication.
+Independent review findings were resolved and rechecked. No merging, tagging,
+registry publication, release creation, deployment or settings mutation occurred.
