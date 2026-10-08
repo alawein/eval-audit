@@ -33,10 +33,11 @@ repositories are outside this checkout; their assigned agents own verification.
 
 ## v0.3.0 local verification
 
-The final suite collects **93 tests** (baseline 46), all passing on Python
+The final suite collects **103 tests** (baseline 46), all passing on Python
 **3.11.13, 3.12.10 and 3.13.9**. Two Hypothesis properties each exercise 100
 deterministic generated cases. Ruff check/format, mypy and Pyright pass. Draft
-2020-12 schema definitions and legacy/trial examples validate. Both wheel and
+2020-12 schema definitions, all canonical examples, expected count/exit fixture
+and three converted native adapter fixtures validate. Both wheel and
 sdist build through `uv build` and `python -m build`; Twine metadata checks pass.
 Both artifacts install in isolated environments and pass the synthetic CLI smoke.
 `uv sync --frozen` succeeds after lowering the floor. Runtime dependencies remain
@@ -48,7 +49,7 @@ empty. Final lock SHA-256:
 | Offline core and adapters | `core.py:1`, `contract.py:1-5`, `cli.py:1-14`, `adapters.py:3-6`, `output.py:3-5`: stdlib/local imports; inspected runtime has no network/model/subprocess/executor calls |
 | Explicit denominators and legacy compatibility | `core.py:26,97,99`: supplied ID/trial populations; committed legacy JSON unchanged and full snapshot test passes |
 | Errored numeric availability | `core.py:21,54,71`: availability counts numeric error scores; `core.py:74-90` separately excludes errors from all-k-scored readiness |
-| Numeric and duplicate validation | `contract.py:113,121`: exact pair duplicate and finite exact numeric types, row-numbered; parser rejects nonfinite lexical constants at line 37 |
+| Numeric and duplicate validation | `contract.py:114,122`: exact pair duplicate and finite exact numeric types, row-numbered; parser rejects nonfinite lexical constants at line 37; legacy duplicate diagnostic preserved exactly |
 | Repeated trials | `contract.py:56-75`, `core.py:35-126`: explicit plans, expected/delivered/duplicate/unexpected counts, missing pairs, mixed statuses and readiness counts |
 | Adapters | `adapters.py`: narrow explicit mappings; synthetic tests and caller-selected categorical mappings; docs/adapters.md lists discarded fields and limits |
 | Output preservation | `output.py:26-48`: same-directory staging and atomic installation; injected stage-write/replace/link race failures preserve target bytes |
@@ -60,4 +61,9 @@ arbitrary score objects and aggregate-only reports intentionally fail rather tha
 being silently normalized. Root owns remote checks/security/release readiness and
 the separate three-record public Inspect pilot; its result is not adoption.
 
-Fresh committed-clone verification is pending the product commit below.
+Fresh committed clone `0b58f10` passed its complete 93-test suite, frozen sync,
+Ruff checks, both type checkers, schemas, wheel/sdist builds and Twine metadata.
+Final review then added regression checks for malformed falsy Inspect scores,
+unsupported archives and the mirrored deterministic JSON renderer. These checks
+and expanded fixture schema validation are included in the subsequent fix commit;
+the final committed clone is checked again before handoff.

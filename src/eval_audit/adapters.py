@@ -18,6 +18,23 @@ def source_rows(format_name: str, source: Path) -> list:
         require(source.stat().st_size <= 5 * 1024 * 1024, "source exceeds 5 MiB")
         with zipfile.ZipFile(source) as archive:
             members = archive.infolist()
+            require(
+                not any(member.flag_bits & 1 for member in members),
+                "encrypted archive members are unsupported",
+            )
+            require(
+                all(
+                    member.compress_type
+                    in (
+                        zipfile.ZIP_STORED,
+                        zipfile.ZIP_DEFLATED,
+                        zipfile.ZIP_BZIP2,
+                        zipfile.ZIP_LZMA,
+                    )
+                    for member in members
+                ),
+                "unsupported archive compression",
+            )
             require(len(members) <= 20000, "too many archive members")
             require(
                 len({member.filename for member in members}) == len(members),
@@ -73,7 +90,8 @@ def convert(
         if format_name == "inspect":
             identifier = sample.get("id")
             trial = sample.get("epoch", 1)
-            scores = sample.get("scores") or {}
+            scores = sample.get("scores")
+            scores = {} if scores is None else scores
             require(type(scores) is dict, f"invalid scores at {label}")
             require(not scores or score_key in scores, f"missing score key at {label}")
             entry = scores.get(score_key, {})

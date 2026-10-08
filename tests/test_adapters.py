@@ -143,3 +143,34 @@ def test_explicit_categorical_mapping_is_required(tmp_path):
         convert("inspect", manifest(), source, "metric", {"I": 0})
     with pytest.raises(InputError):
         convert("inspect", manifest(), source, "metric", {"C": True})
+
+
+@pytest.mark.parametrize("scores", [[], False, 0, ""])
+def test_falsy_malformed_scores_not_coerced_to_unscored(tmp_path, scores):
+    source = write(tmp_path, {"samples": [{"id": "a", "scores": scores}]})
+    with pytest.raises(InputError, match="record 1"):
+        convert("inspect", manifest(), source, "metric")
+
+
+def test_encrypted_archive_is_controlled_invalid_input(tmp_path, monkeypatch):
+    source = tmp_path / "encrypted.eval"
+    source.write_bytes(b"placeholder")
+    member = zipfile.ZipInfo("samples/a.json")
+    member.flag_bits = 1
+
+    class EncryptedArchive:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args):
+            pass
+
+        def infolist(self):
+            return [member]
+
+        def read(self, *args):
+            raise RuntimeError("password required")
+
+    monkeypatch.setattr(zipfile, "ZipFile", lambda *args: EncryptedArchive())
+    with pytest.raises(InputError, match="encrypted"):
+        convert("inspect", manifest(), source, "metric")

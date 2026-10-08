@@ -58,6 +58,12 @@ def test_duplicate_trial_is_not_duplicate_id():
         audit(manifest() | {"trials_per_id": 2}, [row(), row() | {"trial": 1}])
 
 
+def test_legacy_duplicate_diagnostic_is_byte_compatible():
+    with pytest.raises(InputError) as error:
+        audit(manifest(), [row(), row()])
+    assert str(error.value) == "duplicate record ID at record 2: a"
+
+
 def test_schema_two_defaults_to_one_trial():
     result = audit(manifest() | {"schema_version": 2}, [row()])
     assert result["trial_counts"]["expected"] == 1

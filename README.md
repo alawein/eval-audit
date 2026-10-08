@@ -70,6 +70,20 @@ unscored, score-present coverage, and exit codes. [Input contract](docs/contract
 in context; [the public-log pilot](studies/inspect-security-guide/README.md) is a
 small recorded-run exercise with its stated limits.
 
+## Related work and how this differs
+
+[Inspect error handling](https://inspect.aisi.org.uk/handling-errors.html) and
+[missing-score metric policies](https://inspect.aisi.org.uk/metrics.html) already
+provide native controls. Eval Audit independently compares delivered rows with
+a caller-supplied expected population. [Retry issue 5659](https://github.com/UKGovernmentBEIS/inspect_ai/issues/5659)
+is a report about sample selection, not proof of a general harness defect.
+
+[tau-bench](https://arxiv.org/abs/2406.12045v1) motivates repeated trials and
+pass^k reliability; this tool reports readiness counts without computing success
+rates or task-state correctness. [Kirgis et al.](https://arxiv.org/abs/2605.08545v1)
+argue for analysis beyond final outcomes. Coverage checks are one mechanical
+part of that work, with no claim of research novelty or comparative superiority.
+
 ## Develop
 
 `just check` runs Ruff, pytest, type checks, schemas and wheel/sdist builds.
@@ -84,6 +98,9 @@ provide race-proof input identity checks or a power-loss durability guarantee.
 This is [alawein/eval-audit](https://github.com/alawein/eval-audit), an offline
 coverage auditor. It is unrelated to similarly named statistical or human-grading
 tools. No registry publication or third-party adoption is claimed.
+
+[Release readiness](RELEASE_READY.md) and [security settings](SECURITY_SETTINGS.md)
+record the publication setup and observed access limits.
 
 MIT code; original CC0 synthetic fixtures. AI-assisted independent implementation.
 No client work, production ownership or adoption claim.

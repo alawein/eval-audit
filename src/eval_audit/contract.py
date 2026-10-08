@@ -110,7 +110,8 @@ def validate(manifest: dict, records: list[dict]) -> None:
         text(row["id"], 200, f"ID at record {index}")
         key = (row["id"], row.get("trial", 1))
         label = "trial" if trial_mode(manifest) else "ID"
-        require(key not in seen, f"duplicate record {label} at record {index}: {key}")
+        identity = key if trial_mode(manifest) else row["id"]
+        require(key not in seen, f"duplicate record {label} at record {index}: {identity}")
         seen.add(key)
         require(
             row["status"] in ("scored", "errored", "unscored"), f"invalid status at record {index}"

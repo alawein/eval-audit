@@ -37,6 +37,8 @@ IDs. Promptfoo repeated `(testIdx,promptIdx)` pairs need explicit `trial`; no re
 or provider-order inference is made. Duplicates fail, including duplicate ZIP
 member names. This intentionally rejects ambiguous superseded ZIP entries rather
 than silently choosing the newest. Archives are never extracted.
+Encrypted members and compression methods unavailable on Python 3.11 are
+rejected. Stored, deflate, bzip2 and LZMA ZIP members are supported.
 
 Discarded fields: conversations, prompts, responses, tool calls, event timelines,
 attachments, model configuration, aggregate metrics, timestamps, token usage,
@@ -44,6 +46,9 @@ grading details and source run metadata. Source `error.message` is preserved;
 other error fields and traceback are discarded. No arbitrary scorer dictionaries
 or arrays are reduced. Run IDs come from the manifest. Full source bytes remain
 the caller's provenance owner; converted-file hashes bind the audit's inputs.
+
+All fields not explicitly mapped in the table are discarded; sample rows are
+never discarded. A malformed mapped field causes conversion to fail.
 
 Limits: compressed source <=5 MiB; total ZIP expanded bytes <=5 MiB, <=20,000 ZIP
 members, <=10,000 sample rows. No remote references, attachment resolution, log

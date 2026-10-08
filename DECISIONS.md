@@ -18,3 +18,7 @@
   population. Conversion validates every source row and canonical output.
 - Atomic output guarantees apply per file. Several outputs are not one
   transaction. Existing aliases and hard links are rejected before staging.
+- Order invariance applies to audit counts and report bodies. CLI input hashes
+  bind exact file bytes, so reordering JSONL bytes correctly changes the input
+  digest even when the audit body is identical. Source bytes are never normalized
+  solely to equalize hashes.
