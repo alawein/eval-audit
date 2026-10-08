@@ -21,7 +21,7 @@ def main() -> None:
         scripts = root / "venv" / ("Scripts" if os.name == "nt" else "bin")
         python = scripts / ("python.exe" if os.name == "nt" else "python")
         subprocess.run(
-            ["uv", "pip", "install", "--python", str(python), str(artifact)],
+            ["uv", "pip", "install", "--python", str(python), "--no-deps", str(artifact)],
             cwd=root,
             env=env,
             check=True,
@@ -35,6 +35,7 @@ def main() -> None:
         if not Path(origin).resolve().is_relative_to(root):
             raise RuntimeError("Imported checkout instead of isolated artifact")
         command = scripts / ("eval-audit.exe" if os.name == "nt" else "eval-audit")
+        subprocess.run([str(command), "--help"], cwd=root, env=env, check=True)
         result = subprocess.run(
             [str(command), str(examples / "manifest.json"), str(examples / "results.jsonl")],
             cwd=root,

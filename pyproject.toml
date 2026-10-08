@@ -1,10 +1,10 @@
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling==1.32.4"]
 build-backend = "hatchling.build"
 
 [project]
-name = "eval-audit"
-version = "0.3.0"
+name = "alawein-eval-audit"
+version = "0.3.1"
 description = "Audit coverage of supplied evaluation records."
 readme = "README.md"
 requires-python = ">=3.11"
@@ -16,6 +16,7 @@ eval-audit = "eval_audit.cli:main"
 
 [dependency-groups]
 dev = [
+    "hatchling==1.32.4",
     "build>=1.6.1",
     "hypothesis>=6.168.5",
     "jsonschema>=4.26.0",
@@ -25,6 +26,7 @@ dev = [
     "pytest>=8",
     "ruff>=0.8",
     "twine>=7.0.0",
+    "pypi-attestations==0.0.30",
 ]
 
 [tool.hatch.build.targets.wheel]

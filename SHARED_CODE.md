@@ -15,3 +15,8 @@ temporary file, full write/flush/fsync, `os.replace` when forced, `os.link` for
 exclusive creation otherwise, then stage cleanup. Validation rejects resolved
 aliases and existing hard links before staging. This is not a multi-output
 transaction, race-proof input validation, or a power-loss durability guarantee.
+
+Both packages now mirror tests/test_shared_vectors.py: force and no-force writes,
+hard-link input aliases, competing creation, unsupported link/replace, staging
+failure, second-output failure, sorted finite JSON with trailing LF, and escaped
+HTML text. These preserve per-file atomicity and fail-closed unsupported behavior.

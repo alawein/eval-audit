@@ -16,9 +16,9 @@ from eval_audit.output import atomic_write, validate_outputs
 from eval_audit.report import render_html, render_json
 
 try:
-    __version__ = _package_version("eval-audit")
+    __version__ = _package_version("alawein-eval-audit")
 except PackageNotFoundError:
-    __version__ = "0.3.0"
+    __version__ = "0.3.1"
 
 
 def convert_main(argv: list[str]) -> int:

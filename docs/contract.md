@@ -66,3 +66,14 @@ Versioned schemas accept legacy and extended records. Manifest/record relationsh
 constraints (exact trial-map keys, total trial limits, legacy trial prohibition,
 duplicate trial identity and numeric finiteness) are enforced by runtime validation
 in addition to JSON Schema. No schema is fetched by runtime.
+
+## Current release state, October 8, 2026
+
+The v0.3.0 [merged PR](https://github.com/alawein/eval-audit/pull/15), immutable
+`v0.3.0` tag, and [GitHub Release](https://github.com/alawein/eval-audit/releases/tag/v0.3.0)
+are published. [PyPI run](https://github.com/alawein/eval-audit/actions/runs/37799361873)
+failed with invalid-publisher; the authenticated form separately rejected the
+original name. Maintenance alawein-eval-audit 0.3.1 is not yet published and its
+pending-publisher acceptance remains blocked on owner-entered password confirmation.
+See [release readiness](../RELEASE_READY.md) for the actual states and retry rules.
+Historical preparation and checks below retain their original dates and scope.

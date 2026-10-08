@@ -1,86 +1,80 @@
-# v0.3.0 release readiness
+# Release readiness
 
-Prepared locally, not released. This branch permits one draft PR against `main`.
-Merging, tags, GitHub Releases, package publication, Pages deployment, settings,
-and secrets are separate owner gates. No step below was executed in this run.
+## Current state, October 8, 2026
 
-## Merge gate
+v0.3.0 [PR 15](https://github.com/alawein/eval-audit/pull/15) merged at
+`b3d116f66840387013848781daa66f3968c9a5d6`. The immutable `v0.3.0` tag and
+[GitHub Release](https://github.com/alawein/eval-audit/releases/tag/v0.3.0) exist.
+[Registry run](https://github.com/alawein/eval-audit/actions/runs/37799361873)
+failed with `invalid-publisher`, because PyPI found no publisher matching the
+valid token claims. Separately, its authenticated pending-publisher form rejected
+`eval-audit` as too similar to an existing project. Its JSON 404 was not name
+acceptance. Local v0.3.0 GitHub assets retain their documented CI-attestation
+limitation; preserve their bytes and tag.
 
-After explicit merge authorization, mark the draft ready in the PR UI, review
-the exact current head and checks, then use the PR number from this branch:
+The owner authorized the remaining closeout, including registry setup, publication,
+merge, tags, release, Pages and non-Dependabot controls. No repeated approval is
+needed for that named scope. Preserve feature branches and avoid `--delete-branch`,
+`--admin`, force pushes or rewritten tags. Dependabot's entire family is excluded.
 
-```powershell
-gh pr ready --repo alawein/eval-audit 15
-gh pr checks --repo alawein/eval-audit 15
-gh pr merge --repo alawein/eval-audit 15 --squash --match-head-commit <APPROVED_HEAD_SHA>
-```
+Maintenance distribution `alawein-eval-audit` version 0.3.1 is implemented locally.
+Repository `eval-audit`, module `eval_audit` and command `eval-audit` are unchanged.
+Pending-publisher acceptance and publication have not completed: the authenticated
+PyPI session needs owner-entered sensitive-action password confirmation. This is
+an access blocker, not a new approval gate. Do not put credentials in logs or use
+tokens as a workaround. If the form rejects the default, record its exact cause
+before trying the authorized `alawein-evaluation-audit` alternative.
 
-Do not use `--delete-branch` or `--admin`. Passing checks are not merge permission.
-Pages was made manual-only so a separately approved merge does not deploy.
+## Maintenance delivery
 
-## Tag and package publication gates
+Register the accepted project's [pending publisher](https://pypi.org/manage/account/publishing/):
+GitHub owner `alawein`, repository `eval-audit`, workflow `release.yml`, environment
+`pypi`. After reviewed checks and merge, tag the exact main revision `v0.3.1`.
+Check that the tag is absent before creating it; never alter `v0.3.0`.
 
-`release.yml` triggers only on a pushed `v*` tag, checks that the tagged commit
-is an ancestor of `origin/main`, and compares the tag to the package version.
-It publishes automatically through a configured trusted publisher. Therefore
-**pushing the tag crosses both the tag gate and the package publication gate**.
-The workflow uses full action commit SHAs, OIDC, and build attestations.
+The tag-only release workflow builds once with the locked backend, verifies exact
+wheel/sdist metadata and SHA-256, attests them, then retains
+`canonical-distributions` for 30 days before registry authentication. SHA256SUMS
+and inventory.json are outside dist, so neither can be sent to PyPI as a package.
+Publishing copies only verified missing files into a fresh `publish-dist/` staging
+directory. The pinned PyPA action writes `.publish.attestation` sidecars there;
+they never enter canonical dist or retained release assets. GitHub Release upload
+consumes the exact retained canonical files.
+Only release-upload has contents:write. Existing mismatching GitHub assets fail.
 
-Configure the trusted publisher only after the owner authorizes registry setup.
-The workflow filename is `release.yml`, owner `alawein`, repository `eval-audit`,
-environment `pypi`. No secret is needed by the workflow.
+For a failed publishing run, rerun failed jobs using its retained canonical
+artifact. Preflight downloads every existing file to verify its exact hash and
+publisher provenance. A complete matching version skips publication. A matching
+verified subset resumes by staging only missing files; present files are never
+re-uploaded. Different bytes, extra filenames, duplicate entries or foreign/missing
+publisher provenance fail closed. Postflight requires the complete exact inventory
+and re-verifies every file before any release creation. HTTP 403, other API failures and uncertain effects are not
+absence. Reconcile at the destination before any retry. A success must not be
+retried blindly. If the canonical artifact expires, stop and prepare a new version
+instead of reconstructing old bytes.
 
-After merge, registry configuration, and explicit tag plus publish approval:
+After success, the workflow downloads the PyPI distributions and verifies hashes,
+GitHub build provenance with exact repository/workflow/source commit/tag and hosted
+runner constraints, and PyPI publish provenance. It uploads the identical built
+files and checksums, then downloads every GitHub asset to verify bytes. A new
+release is complete only after these actual remote checks pass. See
+[GitHub verification flags](https://cli.github.com/manual/gh_attestation_verify)
+and [PyPI provenance verification](https://docs.pypi.org/attestations/consuming-attestations/).
 
-```powershell
-git fetch origin main
-git tag -a v0.3.0 origin/main -m "chore(release): v0.3.0"
-git push origin refs/tags/v0.3.0
-gh run list --repo alawein/eval-audit --workflow release.yml --limit 1
-```
+The public release body is generated only after the release-upload job independently
+re-verifies complete registry bytes and publisher provenance. It names the verified
+distribution/version, source commit, tag and SHA-256 values, and links the committed
+changelog. Local preparation notes are not used as the public publication status.
 
-Recheck the exact main revision and the absence of an existing tag before tagging.
-Never overwrite a tag. Inspect the finished publishing run and download/check
-the registry artifact before claiming that publication succeeded.
+Update v0.3.0's release description to point to the new distribution after actual
+success, retaining the old tag/assets. The manual Pages workflow remains authorized;
+verify its run and public page before claiming deployment. Follow
+[non-Dependabot security controls](SECURITY_SETTINGS.md).
 
-For PyPI, visit [pending publishers](https://pypi.org/manage/account/publishing/)
-and Add a new pending publisher, choose GitHub, project `eval-audit`, owner `alawein`,
-repository `eval-audit`, workflow `release.yml`, environment `pypi`.
-[PyPI's publishing instructions](https://docs.pypi.org/trusted-publishers/using-a-publisher/)
-support first publication through a pending publisher. Attestations are enabled
-in the PyPA publishing action. Builds and `twine check` are local preparation.
+## Dated prepublication history
 
-`eval-audit` returned HTTP 404 from PyPI's project JSON endpoint on October 8, 2026.
-It was available at that lookup, not reserved. Recheck before registry setup.
-
-## GitHub Release gate
-
-Only after explicit release authorization and verified package publication:
-
-```powershell
-gh release create v0.3.0 --repo alawein/eval-audit --verify-tag --title "eval-audit v0.3.0" --notes-file RELEASE_NOTES.md dist/*
-```
-
-Use the files built from the approved tagged revision. Check uploaded artifact
-hashes after downloading them. [Release notes](RELEASE_NOTES.md) are prepared
-from the changelog; add the actual published artifact checks after the release.
-
-## Pages deployment gate
-
-The Pages workflow is manual-only. After explicit Pages authorization:
-
-```powershell
-gh workflow run pages.yml --repo alawein/eval-audit --ref main
-gh run list --repo alawein/eval-audit --workflow pages.yml --limit 1
-```
-
-The existing `github-pages` environment and Pages source must be configured by
-the owner if absent. Inspect the run and <https://alawein.github.io/eval-audit/> before
-claiming deployment. Changing Pages settings is a separate settings gate.
-
-## Security settings gate
-
-Follow [SECURITY_SETTINGS.md](SECURITY_SETTINGS.md) at
-<https://github.com/alawein/eval-audit/settings/security_analysis>. Enable dependency
-graph, Dependabot alerts, and Dependabot security updates. Add version-update
-configuration through a separately authorized PR. No setting was changed here.
+Earlier v0.3.0 preparation permitted a draft PR only, and separated merge, tag,
+registry, release, Pages and settings gates. Those were the permissions at that
+time; the owner's October 8 follow-up superseded them. The original Phase 0 and
+prepublication test results remain in [AUDIT_VERIFICATION.md](AUDIT_VERIFICATION.md).
+No historical test run is represented as a maintenance validation run.
