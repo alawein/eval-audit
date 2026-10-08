@@ -62,7 +62,11 @@ def source_rows(format_name: str, source: Path) -> list:
     else:
         rows = document.get("results")
         if type(rows) is dict:
-            rows = rows.get("results")
+            require(
+                not ("results" in rows and "outputs" in rows),
+                "ambiguous promptfoo results/outputs envelopes",
+            )
+            rows = rows.get("outputs") if "outputs" in rows else rows.get("results")
     if not isinstance(rows, list):
         raise ValueError("source must contain per-sample rows")
     return rows

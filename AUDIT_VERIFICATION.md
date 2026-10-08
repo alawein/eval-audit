@@ -33,11 +33,11 @@ repositories are outside this checkout; their assigned agents own verification.
 
 ## v0.3.0 local verification
 
-The final suite collects **103 tests** (baseline 46), all passing on Python
+The final suite collects **105 tests** (baseline 46), all passing on Python
 **3.11.13, 3.12.10 and 3.13.9**. Two Hypothesis properties each exercise 100
 deterministic generated cases. Ruff check/format, mypy and Pyright pass. Draft
 2020-12 schema definitions, all canonical examples, expected count/exit fixture
-and three converted native adapter fixtures validate. Both wheel and
+and four converted native adapter fixtures validate. Both wheel and
 sdist build through `uv build` and `python -m build`; Twine metadata checks pass.
 Both artifacts install in isolated environments and pass the synthetic CLI smoke.
 `uv sync --frozen` succeeds after lowering the floor. Runtime dependencies remain

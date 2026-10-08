@@ -35,6 +35,7 @@ def main() -> None:
         ("inspect", "inspect.json", "a", "metric"),
         ("lm-evaluation-harness", "lm-harness.jsonl", "0", "acc,none"),
         ("promptfoo", "promptfoo.json", "0:0", None),
+        ("promptfoo", "promptfoo-v3.json", "0:0", None),
     ):
         population = {
             "schema_version": 1,
@@ -46,7 +47,7 @@ def main() -> None:
         for record in records:
             validators["result-record"].validate(record)
         validators["report"].validate(audit(population, records))
-    print("PASS: Draft 2020-12 schemas; all canonical examples and three adapter fixtures")
+    print("PASS: Draft 2020-12 schemas; all canonical examples and four adapter fixtures")
 
 
 if __name__ == "__main__":

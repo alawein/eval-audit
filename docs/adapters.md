@@ -15,7 +15,7 @@ normal audit afterward. JSONL output is sorted by `(id, trial)`.
 | --- | --- | --- |
 | inspect | JSON object with `samples` array; ZIP `.eval` entries under `samples/` ending `.json` | `id` string or integer becomes string; `epoch` becomes trial, default 1; `scores[KEY].value` becomes score; `error.message` or string error becomes reason |
 | lm-evaluation-harness | per-sample JSONL, one task/configuration per file | `doc_id` becomes string ID; literal row key KEY becomes score; optional `error` becomes reason; trial 1 |
-| promptfoo | object whose `results` is an array or whose `results.results` is an array | ID is `testIdx:promptIdx`, both nonnegative integers; top-level `score` retained; optional `trial`, default 1; `error` retained as reason |
+| promptfoo | v3 object with `results.outputs` array; legacy `results.results` array or top-level `results` array | ID is `testIdx:promptIdx`, both nonnegative integers; top-level `score` retained; optional `trial`, default 1; `error` retained as reason |
 
 Source errors, including empty error objects, yield `errored`; otherwise non-null
 scores yield `scored`, and absent/null scores yield `unscored`. Failed grading
@@ -39,6 +39,9 @@ member names. This intentionally rejects ambiguous superseded ZIP entries rather
 than silently choosing the newest. Archives are never extracted.
 Encrypted members and compression methods unavailable on Python 3.11 are
 rejected. Stored, deflate, bzip2 and LZMA ZIP members are supported.
+Promptfoo envelopes containing both `results` and `outputs` fail as ambiguous.
+Output rows still need explicit `testIdx`, `promptIdx` and numeric/null `score`;
+raw-response-only arrays and aggregate assertion tables are unsupported.
 
 Discarded fields: conversations, prompts, responses, tool calls, event timelines,
 attachments, model configuration, aggregate metrics, timestamps, token usage,

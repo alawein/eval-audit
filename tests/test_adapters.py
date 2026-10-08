@@ -174,3 +174,25 @@ def test_encrypted_archive_is_controlled_invalid_input(tmp_path, monkeypatch):
     monkeypatch.setattr(zipfile, "ZipFile", lambda *args: EncryptedArchive())
     with pytest.raises(InputError, match="encrypted"):
         convert("inspect", manifest(), source, "metric")
+
+
+def test_promptfoo_documented_v3_outputs_envelope(tmp_path):
+    source = write(
+        tmp_path,
+        {
+            "version": 3,
+            "results": {
+                "outputs": [{"testIdx": 0, "promptIdx": 0, "score": 0, "pass": False}],
+                "stats": {},
+            },
+        },
+    )
+    assert convert("promptfoo", manifest(["0:0"]), source) == [
+        {"id": "0:0", "status": "scored", "score": 0, "reason": ""}
+    ]
+
+
+def test_promptfoo_ambiguous_envelopes_fail(tmp_path):
+    source = write(tmp_path, {"results": {"results": [], "outputs": []}})
+    with pytest.raises(InputError, match="ambiguous"):
+        convert("promptfoo", manifest(), source)
