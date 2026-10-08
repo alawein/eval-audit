@@ -41,3 +41,14 @@ report-only dependency audits instead. Credentials remain owner-entered and
 managed through the established secret owner; never print or commit them.
 Preserve existing release tags and feature branches. No force pushes, unrelated
 remote changes, new repositories, or kohyr copies are part of this closeout.
+
+## Current release state, October 8, 2026
+
+The v0.3.0 [merged PR](https://github.com/alawein/eval-audit/pull/15), immutable
+`v0.3.0` tag, and [GitHub Release](https://github.com/alawein/eval-audit/releases/tag/v0.3.0)
+are published. [PyPI run](https://github.com/alawein/eval-audit/actions/runs/37799361873)
+failed with invalid-publisher; the authenticated form separately rejected the
+original name. Maintenance alawein-eval-audit 0.3.1 is not yet published and its
+pending-publisher acceptance remains blocked on owner-entered password confirmation.
+See [release readiness](RELEASE_READY.md) for the actual states and retry rules.
+Historical preparation and checks below retain their original dates and scope.

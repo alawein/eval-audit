@@ -1,4 +1,6 @@
 import json
+import tomllib
+from pathlib import Path
 
 import pytest
 from test_audit import manifest as make_manifest
@@ -8,6 +10,16 @@ from eval_audit.cli import __version__, main
 from eval_audit.contract import InputError, validate
 from eval_audit.core import audit
 from eval_audit.report import render_html
+
+
+def test_distribution_metadata_preserves_module_and_cli():
+    project = tomllib.loads(
+        (Path(__file__).parents[1] / "pyproject.toml").read_text(encoding="utf-8")
+    )["project"]
+    assert project["name"] == "alawein-eval-audit"
+    assert project["version"] == "0.3.1"
+    assert project["scripts"] == {"eval-audit": "eval_audit.cli:main"}
+    assert project["dependencies"] == []
 
 
 def test_help_documents_invocations_and_exit_codes(capsys):

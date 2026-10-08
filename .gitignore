@@ -34,3 +34,8 @@ Thumbs.db
 site/
 
 studies/data/
+
+# Local maintenance build outputs (old release bytes retained).
+dist-*/
+release-assets/
+.verification/

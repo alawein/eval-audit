@@ -81,6 +81,29 @@ def test_inspect_missing_requested_key_errors(tmp_path):
         convert("inspect", manifest(), source, "metric")
 
 
+def test_inspect_declared_dropped_fields_do_not_change_score_mapping(tmp_path):
+    sample = {"id": "a", "scores": {"metric": {"value": 0}}}
+    source = write(tmp_path, {"samples": [sample]})
+    before = convert("inspect", manifest(), source, "metric")
+    source = write(
+        tmp_path,
+        {
+            "samples": [
+                sample
+                | {
+                    "messages": [{"content": "not a score"}],
+                    "target": "not evidence",
+                    "metadata": {"accuracy": 1},
+                    "events": [],
+                    "output": {"choices": []},
+                }
+            ],
+            "results": {"accuracy": 1},
+        },
+    )
+    assert convert("inspect", manifest(), source, "metric") == before
+
+
 def test_conversion_cli_preserves_source_and_explicit_population(tmp_path):
     source = write(tmp_path, {"samples": [{"id": "a", "scores": {"metric": {"value": 1}}}]})
     population = tmp_path / "manifest.json"

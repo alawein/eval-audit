@@ -12,8 +12,8 @@ that retain a score.
 
 ## Run
 
-Python 3.11+. Build the v0.3.0 wheel from this branch with `uv build`, then install it
-with `python -m pip install path/to/eval_audit-0.3.0-py3-none-any.whl`.
+Python 3.11+. Build the v0.3.1 wheel from this branch with `uv build`, then install it
+with `python -m pip install path/to/alawein_eval_audit-0.3.1-py3-none-any.whl`.
 No runtime dependencies. From a clone:
 
 ```sh
@@ -68,7 +68,7 @@ unscored, score-present coverage, and exit codes. [Input contract](docs/contract
 [provenance](docs/provenance.md).
 [Related work and first-PR check history](docs/related-work.md) put these checks
 in context; [the public-log pilot](studies/inspect-security-guide/README.md) is a
-small recorded-run exercise with its stated limits.
+small recorded-run exercise with its stated limits. The [ten-sample archive study](studies/harness-coverage/README.md) independently verifies its selected population and unscored records.
 
 ## Related work and how this differs
 
@@ -97,7 +97,7 @@ provide race-proof input identity checks or a power-loss durability guarantee.
 
 This is [alawein/eval-audit](https://github.com/alawein/eval-audit), an offline
 coverage auditor. It is unrelated to similarly named statistical or human-grading
-tools. No registry publication or third-party adoption is claimed.
+tools. The GitHub v0.3.0 release is published. PyPI v0.3.0 failed because no matching trusted publisher existed; the original distribution name was also rejected. The owner-qualified distribution alawein-eval-audit v0.3.1 awaits pending-publisher acceptance and publication. No third-party adoption is claimed.
 
 [Release readiness](RELEASE_READY.md) and [security settings](SECURITY_SETTINGS.md)
 record the publication setup and observed access limits.

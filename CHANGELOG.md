@@ -1,6 +1,12 @@
 # Changelog
 
-## 0.3.0 (unreleased)
+## 0.3.1 (not yet published)
+
+- Rename distribution to alawein-eval-audit; preserve eval_audit imports and eval-audit CLI.
+- Build once, retain and attest exact artifacts, reconcile registry retries and immutable release assets.
+- Add mirrored output conformance vectors and a pinned ten-sample offline Inspect study.
+
+## 0.3.0 (GitHub released October 8, 2026)
 
 - Add explicit global/per-ID trial plans, trial identities, missing/unexpected
   trial reports, ID completeness and pass@k/pass^k readiness denominators.
