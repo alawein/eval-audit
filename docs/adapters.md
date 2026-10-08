@@ -10,6 +10,9 @@ as per-sample results.
 [--score-map MAP.json] [--force]` returns 0 on conversion and 2 on invalid input
 or I/O failure. Conversion success does not establish complete coverage; run the
 normal audit afterward. JSONL output is sorted by `(id, trial)`.
+Canonical JSONL uses real UTF-8 text and must also fit the 5 MiB input cap. If
+normalization expands the file beyond that limit, conversion fails before staging
+and preserves existing output bytes. Corrupt compressed archives return exit 2.
 
 | Format | Input | Exact mapping |
 | --- | --- | --- |

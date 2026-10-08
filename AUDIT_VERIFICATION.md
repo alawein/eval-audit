@@ -33,7 +33,7 @@ repositories are outside this checkout; their assigned agents own verification.
 
 ## v0.3.0 local verification
 
-The final suite collects **105 tests** (baseline 46), all passing on Python
+The final suite collects **109 tests** (baseline 46), all passing on Python
 **3.11.13, 3.12.10 and 3.13.9**. Two Hypothesis properties each exercise 100
 deterministic generated cases. Ruff check/format, mypy and Pyright pass. Draft
 2020-12 schema definitions, all canonical examples, expected count/exit fixture
@@ -46,7 +46,7 @@ empty. Final lock SHA-256:
 
 | Addressed finding | Current code evidence |
 | --- | --- |
-| Offline core and adapters | `core.py:1`, `contract.py:1-5`, `cli.py:1-14`, `adapters.py:3-6`, `output.py:3-5`: stdlib/local imports; inspected runtime has no network/model/subprocess/executor calls |
+| Offline core and adapters | `core.py:1`, `contract.py:1-5`, `cli.py:1-16`, `adapters.py:3-6`, `output.py:3-5`: stdlib/local imports; inspected runtime has no network/model/subprocess/executor calls |
 | Explicit denominators and legacy compatibility | `core.py:26,97,99`: supplied ID/trial populations; committed legacy JSON unchanged and full snapshot test passes |
 | Errored numeric availability | `core.py:21,54,71`: availability counts numeric error scores; `core.py:74-90` separately excludes errors from all-k-scored readiness |
 | Numeric and duplicate validation | `contract.py:114,122`: exact pair duplicate and finite exact numeric types, row-numbered; parser rejects nonfinite lexical constants at line 37; legacy duplicate diagnostic preserved exactly |
@@ -66,4 +66,35 @@ Ruff checks, both type checkers, schemas, wheel/sdist builds and Twine metadata.
 Final review then added regression checks for malformed falsy Inspect scores,
 unsupported archives and the mirrored deterministic JSON renderer. These checks
 and expanded fixture schema validation are included in the subsequent fix commit;
-the final committed clone is checked again before handoff.
+Fresh committed clone `f5668dc` then passed 105 tests and the same checks.
+Independent review reproduced UTF-8 expansion beyond the canonical input cap
+and uncaught corrupt DEFLATE/LZMA decoders. All four regression cases failed
+before fixes, and pass with UTF-8 JSONL, byte-cap validation before staging,
+and controlled decoder failures. The final committed clone is checked again
+before handoff.
+
+## Shared hardening and publication gates
+
+| Recommendation | Status | Evidence or remaining scope |
+| --- | --- | --- |
+| Pinned Actions | Done | Every `uses:` in `.github/workflows` has a full commit SHA; local actionlint checks passed. |
+| Dependency auditing | Done | CI reports audits with `continue-on-error`; it does not silently assert a clean audit. |
+| Release workflows | Prepared, blocked by owner gates | `release.yml` fires only on tags, uses trusted publishing/provenance and checks version plus main ancestry. No tag or publication was executed. |
+| Security settings | Prepared, blocked by owner gate | Exact settings paths and version-update configuration are in `SECURITY_SETTINGS.md`. No settings changed. |
+| Pages | Prepared, blocked by owner gate | Existing Pages workflow is manual-only. Merge no longer deploys automatically. |
+| README/changelog/contract | Done | Version 0.3.0 and candid scope documented; primary related-work sources opened and checked before citation. |
+| Merge/tag/release/publish | Prepared, blocked by owner gates | `RELEASE_READY.md` includes commands and registry setup, and `RELEASE_NOTES.md` is ready for the release gate. |
+| Final independent review | Underway | Concrete defects must be reproduced and fixed before push. |
+| Final clean-clone verification | Underway | Fresh dependency installation, tests, lint, types, schemas and artifact builds are required before push. |
+| Push and one draft PR | Pending authorized execution | Only `feat/v0.3.0-hardening` may be pushed; no merge/main/tag/deploy/settings change. |
+
+### Study status
+
+Done, narrow pilot: `studies/inspect-security-guide` converts a pinned public MIT
+Inspect log containing three archived scored samples. Actual missing, errored
+and unscored counts are each zero; the supplied-subset denominator stays 3 of 3.
+The 16-item underlying dataset is not substituted for the explicitly limited
+three-sample run. The archived source is excluded from Git; download and SHA-256
+are documented. This is not an estimate for larger evaluation populations.
+The PyPI project lookup returned 404 on October 8, 2026; availability was checked,
+not reserved. Disambiguation is included in the README.

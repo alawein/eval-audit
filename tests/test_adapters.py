@@ -6,7 +6,7 @@ from test_audit import manifest
 
 from eval_audit.adapters import convert
 from eval_audit.cli import main
-from eval_audit.contract import InputError
+from eval_audit.contract import InputError, load_inputs
 
 
 def write(tmp_path, value):
@@ -196,3 +196,97 @@ def test_promptfoo_ambiguous_envelopes_fail(tmp_path):
     source = write(tmp_path, {"results": {"results": [], "outputs": []}})
     with pytest.raises(InputError, match="ambiguous"):
         convert("promptfoo", manifest(), source)
+
+
+def test_unicode_conversion_output_is_loadable_under_byte_limit(tmp_path):
+    source = tmp_path / "unicode.json"
+    samples = [{"id": index, "error": "漢" * 4000} for index in range(300)]
+    source.write_text(json.dumps({"samples": samples}, ensure_ascii=False), encoding="utf-8")
+    population = tmp_path / "manifest.json"
+    population.write_text(
+        json.dumps(manifest([str(index) for index in range(300)])), encoding="utf-8"
+    )
+    output = tmp_path / "converted.jsonl"
+    assert source.stat().st_size < 5 * 1024 * 1024
+    assert (
+        main(
+            [
+                "convert",
+                "inspect",
+                str(source),
+                "--manifest",
+                str(population),
+                "--score-key",
+                "metric",
+                "--output",
+                str(output),
+            ]
+        )
+        == 0
+    )
+    assert len(load_inputs(population, output)[1]) == 300
+
+
+def test_conversion_byte_expansion_fails_before_staging(tmp_path):
+    samples = [{"id": index, "error": "r" * 490} for index in range(10000)]
+    source = write(tmp_path, {"samples": samples})
+    assert source.stat().st_size < 5 * 1024 * 1024
+    population = tmp_path / "manifest.json"
+    population.write_text(
+        json.dumps(manifest([str(index) for index in range(10000)])), encoding="utf-8"
+    )
+    output = tmp_path / "converted.jsonl"
+    output.write_text("KEEP", encoding="utf-8")
+    assert (
+        main(
+            [
+                "convert",
+                "inspect",
+                str(source),
+                "--manifest",
+                str(population),
+                "--score-key",
+                "metric",
+                "--output",
+                str(output),
+                "--force",
+            ]
+        )
+        == 2
+    )
+    assert output.read_text() == "KEEP"
+
+
+@pytest.mark.parametrize("compression, offset", [(zipfile.ZIP_DEFLATED, 0), (zipfile.ZIP_LZMA, 4)])
+def test_corrupt_compressed_archive_returns_exit_two_preserving_output(
+    tmp_path, compression, offset
+):
+    source = tmp_path / "broken.eval"
+    filename = "samples/a.json"
+    with zipfile.ZipFile(source, "w", compression=compression) as stream:
+        stream.writestr(filename, '{"id":"a","scores":{"metric":{"value":1}}}')
+    damaged = bytearray(source.read_bytes())
+    damaged[30 + len(filename) + offset] = 0xFF  # Invalid DEFLATE type or LZMA properties.
+    source.write_bytes(damaged)
+    population = tmp_path / "manifest.json"
+    population.write_text(json.dumps(manifest()), encoding="utf-8")
+    output = tmp_path / "converted.jsonl"
+    output.write_text("KEEP", encoding="utf-8")
+    assert (
+        main(
+            [
+                "convert",
+                "inspect",
+                str(source),
+                "--manifest",
+                str(population),
+                "--score-key",
+                "metric",
+                "--output",
+                str(output),
+                "--force",
+            ]
+        )
+        == 2
+    )
+    assert output.read_text() == "KEEP"

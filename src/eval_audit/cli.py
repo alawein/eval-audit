@@ -1,7 +1,9 @@
 import argparse
 import json
+import lzma
 import sys
 import zipfile
+import zlib
 from importlib.metadata import PackageNotFoundError
 from importlib.metadata import version as _package_version
 from pathlib import Path
@@ -44,10 +46,23 @@ def convert_main(argv: list[str]) -> int:
             inputs.append(args.score_map)
         rows = convert(args.format, manifest, args.source, args.score_key, score_map)
         validate_outputs([args.output], inputs, args.force)
-        content = "".join(json.dumps(row, sort_keys=True, allow_nan=False) + "\n" for row in rows)
+        content = "".join(
+            json.dumps(row, sort_keys=True, allow_nan=False, ensure_ascii=False) + "\n"
+            for row in rows
+        )
+        if len(content.encode("utf-8")) > 5 * 1024 * 1024:
+            raise InputError("converted records exceed 5 MiB")
         atomic_write(args.output, content, args.force)
         return 0
-    except (ValueError, OSError, zipfile.BadZipFile, OverflowError, RecursionError) as exc:
+    except (
+        ValueError,
+        OSError,
+        zipfile.BadZipFile,
+        zlib.error,
+        lzma.LZMAError,
+        OverflowError,
+        RecursionError,
+    ) as exc:
         print(f"eval-audit: {exc}", file=sys.stderr)
         return 2
 
