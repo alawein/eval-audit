@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/alawein/eval-audit/schema/manifest.v1.json",
+  "title": "Eval Audit manifest, compatible schema 1 and 2",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "run_id", "expected_ids"],
+  "properties": {
+    "schema_version": {"enum": [1, 2], "type": "integer"},
+    "run_id": {"type": "string", "minLength": 1, "maxLength": 200, "pattern": "\\S"},
+    "expected_ids": {"type": "array", "minItems": 1, "maxItems": 10000,
+      "uniqueItems": true, "items": {"type": "string", "minLength": 1,
+      "maxLength": 200, "pattern": "\\S"}},
+    "trials_per_id": {"oneOf": [
+      {"type": "integer", "minimum": 1, "maximum": 10000},
+      {"type": "object", "minProperties": 1, "maxProperties": 10000,
+       "additionalProperties": {"type": "integer", "minimum": 1, "maximum": 10000}}
+    ]}
+  }
+}

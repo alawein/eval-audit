@@ -1,0 +1,63 @@
+{
+  "complete_ids": [
+    "a"
+  ],
+  "counts": {
+    "errored": 1,
+    "expected": 2,
+    "missing": 1,
+    "score_present": 1,
+    "scored": 0,
+    "unscored": 0
+  },
+  "errored_with_score_ids": [
+    "a"
+  ],
+  "errored_with_score_trials": [
+    {
+      "id": "a",
+      "trial": 2
+    }
+  ],
+  "exit_code": 1,
+  "inputs": {
+    "manifest_sha256": "27533df46d651f8d4822f66479ce833fb28ab3244f66817d383b4c10dc215bef",
+    "records_sha256": "f61158e42fac46a6215184415d954bf3cf96a9e5a8c1745fae19a5970be04101"
+  },
+  "missing_ids": [
+    "b"
+  ],
+  "missing_trials": [
+    {
+      "id": "b",
+      "trial": 2
+    }
+  ],
+  "pass_k_denominators": {
+    "1": {
+      "all_k_trials_scored": 1,
+      "expected_ids": 2
+    },
+    "2": {
+      "all_k_trials_scored": 0,
+      "expected_ids": 2
+    }
+  },
+  "run_id": "synthetic-trials",
+  "schema_version": 2,
+  "score_present_coverage": 0.5,
+  "trial_counts": {
+    "delivered": 3,
+    "duplicate": 0,
+    "errored": 1,
+    "expected": 4,
+    "missing": 1,
+    "score_present": 2,
+    "scored": 1,
+    "unexpected": 0,
+    "unscored": 1
+  },
+  "trial_score_present_coverage": 0.5,
+  "unexpected_ids": [],
+  "unexpected_trials": []
+}

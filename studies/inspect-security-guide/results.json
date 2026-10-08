@@ -1,0 +1,39 @@
+{
+  "audit": {
+    "counts": {
+      "errored": 0,
+      "expected": 3,
+      "missing": 0,
+      "score_present": 3,
+      "scored": 3,
+      "unscored": 0
+    },
+    "errored_with_score_ids": [],
+    "exit_code": 0,
+    "missing_ids": [],
+    "run_id": "inspect-security-guide-2025-05-12",
+    "schema_version": 1,
+    "score_present_coverage": 1.0,
+    "unexpected_ids": []
+  },
+  "dataset_size_before_limit": 16,
+  "denominator_shift": 0,
+  "explicit_expected_denominator": 3,
+  "headline_accuracy_recorded_by_upstream": 1.0,
+  "headline_denominator": 3,
+  "limitations": [
+    "Three-record pilot of a real archived example evaluation, not a population study.",
+    "The model and model-graded scorer were run by upstream; neither is rerun here.",
+    "Coverage and byte integrity do not establish correctness of the scores.",
+    "The dataset size of 16 is not the selected run denominator."
+  ],
+  "run_selected_ids": [
+    "1",
+    "2",
+    "3"
+  ],
+  "score_map": {
+    "C": 1
+  },
+  "source_sha256": "44f6203d88252de0c33f76c948ad7c537b412cff628c704e9a5449ffba9d5a34"
+}
