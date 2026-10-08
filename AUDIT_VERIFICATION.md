@@ -141,3 +141,31 @@ original name. Maintenance alawein-eval-audit 0.3.1 is not yet published and its
 pending-publisher acceptance remains blocked on owner-entered password confirmation.
 See [release readiness](RELEASE_READY.md) for the actual states and retry rules.
 Historical preparation and checks below retain their original dates and scope.
+
+## Native review follow-up, October 8, 2026
+
+Coordinator-reported native MAIOS job `e007ee02-144e-4615-86c7-fdb7efe7daa9`
+reviewed head `454e9100f9cb28cd0ead9ad34b2d20172c2effc1`: four completed parts,
+28 included files, with partial interaction coverage. This is not a complete
+whole-branch review or a clean-review claim. Independent review remains separate.
+
+Three model hypotheses were refuted by the actual contract and executed checks:
+
+- The README wheel filename is correct: `README.md:16` uses normalized
+  `alawein_eval_audit-0.3.1-py3-none-any.whl`, matching the actual wheel built by
+  Hatchling and successfully installed in the isolated release smoke check.
+- Distribution and import names intentionally differ: `pyproject.toml:6` names
+  `alawein-eval-audit`, `pyproject.toml:15` retains the `eval-audit` entry point,
+  and `pyproject.toml:33` packages `src/eval_audit`. Fresh installation imported
+  `eval_audit` from the empty environment, then ran CLI help and the example.
+- Owner approval is present: `AGENTS.md:30` records the exact named follow-up and
+  `AGENTS.md:36` states no renewed per-step authorization is required. The entire
+  Dependabot family remains explicitly excluded. A model cannot reinstate a gate
+  contradicted by the owner's recorded words.
+
+No implementation change was made for these refuted hypotheses. The independent
+checksum-sidecar defect was repaired in `734bd24` and `b6f264c`, with exact LF
+inventory validation and missing/modified/creator regression tests. Final source
+head `b6f264cc4a72cff2beb67a47db9b5e0eb5f9619e` passed 140 tests on Python
+3.11.13, 3.12.10 and 3.13.9, including the clean-clone fresh-environment run.
+The current review note is a documentation-only follow-up to that checked head.
