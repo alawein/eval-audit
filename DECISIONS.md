@@ -74,8 +74,10 @@ The release pipeline has separate build, publish and release-upload jobs. Locked
 Hatchling 1.32.4 and pypi-attestations 0.0.30 are development tools only. A retained
 canonical artifact is uploaded before registry authentication; retry failed jobs
 from that run instead of rebuilding or blindly re-uploading an existing version.
-An existing registry version is accepted only with an exact complete inventory
-and verified downloaded hashes. Existing differing release assets fail closed.
+Every present registry file requires exact downloaded hashes and publisher
+provenance. A complete verified inventory skips publishing; a verified subset
+stages only the missing canonical files. Complete inventory remains mandatory
+after publication and before GitHub release creation. Existing differing release assets fail closed.
 Checksums live outside dist. Build verification binds repository, workflow,
 source commit, tag and hosted runner; registry publish provenance is verified
 with PyPI's client. These workflow checks are implemented, not yet executed for
@@ -90,3 +92,25 @@ and mirrored synthetic vectors rather than introducing a shared dependency.
 Dependabot's entire family remains excluded. Existing report-only pip-audit,
 full-SHA actions, protected reviews, OIDC and artifact verification provide the
 non-Dependabot controls within this scope.
+
+## Bounded release integration repair (2026-10-08)
+
+Independent exact-head review of `29fe353` reproduced the pinned publishing action's
+wheel/sdist `.publish.attestation` sidecars in dist. Strict postflight inventory
+then rejected an otherwise successful publication. The publisher now receives a
+fresh separate staging directory with copied missing files; canonical artifacts
+are unchanged. Staging under canonical dist is rejected as well. Strict inventory
+was preserved, rather than accepting arbitrary extra distribution files.
+
+The same review found that the previous automatic public release body reused local
+preparation text saying PyPI publication was pending. Public notes are now generated
+after independently verified complete registry files/provenance, naming factual
+package/version, source/tag, hashes and the committed changelog. Local readiness
+documents continue to state the actual pending acceptance/publication state.
+
+Partial-upload recovery verifies every existing file's name, digest, downloaded
+bytes and exact publisher identity before staging only missing files. A foreign
+publisher, changed file, extra/duplicate entry, unavailable proof or failed request
+stops the attempt. No blind skip-existing switch is used. Offline synthetic
+publisher integration tests reproduce the actual sidecar paths and partial upload
+transitions; these do not simulate OIDC or establish actual live publication.

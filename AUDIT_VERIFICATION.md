@@ -169,3 +169,19 @@ inventory validation and missing/modified/creator regression tests. Final source
 head `b6f264cc4a72cff2beb67a47db9b5e0eb5f9619e` passed 140 tests on Python
 3.11.13, 3.12.10 and 3.13.9, including the clean-clone fresh-environment run.
 The current review note is a documentation-only follow-up to that checked head.
+
+## Independent review repair, October 8, 2026
+
+Independent exact-head review of `29fe353` found two release integration defects:
+the publishing action's `.publish.attestation` sidecars polluted canonical dist,
+and successful public notes would still say PyPI publication was pending. It also
+identified the bounded partial-upload recovery limitation. The repair preserves
+strict canonical inventory, stages only missing packages separately, verifies
+present registry bytes/publisher proof before resuming, requires complete verified
+postflight, and generates factual public notes only after independent verification.
+
+New regressions model the pinned action's real sidecar filenames and workflow
+packages-dir setting, completed partial uploads, foreign publishers, canonical
+directory preservation, nested staging rejection, and successful/failed note
+generation ordering. Runtime, adapters, study inputs/results and schemas are
+unchanged. Actual new-version publication and live provenance remain pending.

@@ -36,13 +36,19 @@ The tag-only release workflow builds once with the locked backend, verifies exac
 wheel/sdist metadata and SHA-256, attests them, then retains
 `canonical-distributions` for 30 days before registry authentication. SHA256SUMS
 and inventory.json are outside dist, so neither can be sent to PyPI as a package.
-Publishing and GitHub Release upload consume those exact retained files.
+Publishing copies only verified missing files into a fresh `publish-dist/` staging
+directory. The pinned PyPA action writes `.publish.attestation` sidecars there;
+they never enter canonical dist or retained release assets. GitHub Release upload
+consumes the exact retained canonical files.
 Only release-upload has contents:write. Existing mismatching GitHub assets fail.
 
 For a failed publishing run, rerun failed jobs using its retained canonical
-artifact. Preflight checks any existing version's complete inventory and downloads
-to confirm exact hashes. Matching existing versions skip publication; changed or
-partial versions fail. HTTP 403, other API failures and uncertain effects are not
+artifact. Preflight downloads every existing file to verify its exact hash and
+publisher provenance. A complete matching version skips publication. A matching
+verified subset resumes by staging only missing files; present files are never
+re-uploaded. Different bytes, extra filenames, duplicate entries or foreign/missing
+publisher provenance fail closed. Postflight requires the complete exact inventory
+and re-verifies every file before any release creation. HTTP 403, other API failures and uncertain effects are not
 absence. Reconcile at the destination before any retry. A success must not be
 retried blindly. If the canonical artifact expires, stop and prepare a new version
 instead of reconstructing old bytes.
@@ -54,6 +60,11 @@ files and checksums, then downloads every GitHub asset to verify bytes. A new
 release is complete only after these actual remote checks pass. See
 [GitHub verification flags](https://cli.github.com/manual/gh_attestation_verify)
 and [PyPI provenance verification](https://docs.pypi.org/attestations/consuming-attestations/).
+
+The public release body is generated only after the release-upload job independently
+re-verifies complete registry bytes and publisher provenance. It names the verified
+distribution/version, source commit, tag and SHA-256 values, and links the committed
+changelog. Local preparation notes are not used as the public publication status.
 
 Update v0.3.0's release description to point to the new distribution after actual
 success, retaining the old tag/assets. The manual Pages workflow remains authorized;
