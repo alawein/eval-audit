@@ -1,3 +1,3 @@
 {"id": "refund-confirmed", "status": "scored", "score": 0, "reason": "Synthetic evaluation recorded zero; a score is available, no task-quality inference."}
-{"id": "refund-contradicted", "status": "errored", "score": 0.9, "reason": "Synthetic evaluation stopped after a partial numeric score; the refund amount claim still conflicts with the supplied record."}
+{"id": "refund-contradicted", "status": "errored", "score": 0.9, "reason": "Synthetic evaluation stopped after a partial numeric score; the supplied record documents USD 100 and reported success, but no completed evaluation."}
 {"id": "refund-stale", "status": "unscored", "score": null, "reason": "Synthetic evaluation produced no score; the completion observation is stale."}
