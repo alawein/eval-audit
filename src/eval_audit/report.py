@@ -150,6 +150,17 @@ def render_html(
         + _id_list("Errored with score", report.get("errored_with_score_ids"))
         + "</section>"
     )
+    if report.get("schema_version") == 2:
+        how_to += (
+            "<h2>Trial coverage</h2><p>ID status precedence is missing, errored, unscored, "
+            "scored. Complete IDs have all planned trials delivered. Trial availability "
+            "includes errored-with-score; ID availability needs a number on every trial. "
+            "Pass@k and pass^k readiness counts require all first k trials explicitly "
+            "scored. These counts are not success rates.</p>"
+            + _id_list("Missing trials", report.get("missing_trials"))
+            + _id_list("Unexpected trials", report.get("unexpected_trials"))
+            + _id_list("Complete IDs", report.get("complete_ids"))
+        )
     return (
         '<!doctype html><html lang="en"><head><meta charset="utf-8">'
         '<meta name="viewport" content="width=device-width,initial-scale=1">'

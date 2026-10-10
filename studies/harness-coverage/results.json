@@ -1,0 +1,88 @@
+{
+  "audit": {
+    "complete_ids": [
+      "1",
+      "10",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9"
+    ],
+    "counts": {
+      "errored": 0,
+      "expected": 10,
+      "missing": 0,
+      "score_present": 0,
+      "scored": 0,
+      "unscored": 10
+    },
+    "errored_with_score_ids": [],
+    "errored_with_score_trials": [],
+    "exit_code": 1,
+    "missing_ids": [],
+    "missing_trials": [],
+    "pass_k_denominators": {
+      "1": {
+        "all_k_trials_scored": 0,
+        "expected_ids": 10
+      }
+    },
+    "run_id": "inspect-popularity-2025-02-11",
+    "schema_version": 2,
+    "score_present_coverage": 0.0,
+    "trial_counts": {
+      "delivered": 10,
+      "duplicate": 0,
+      "errored": 0,
+      "expected": 10,
+      "missing": 0,
+      "score_present": 0,
+      "scored": 0,
+      "unexpected": 0,
+      "unscored": 10
+    },
+    "trial_score_present_coverage": 0.0,
+    "unexpected_ids": [],
+    "unexpected_trials": []
+  },
+  "dataset_size_before_limit": 100,
+  "delivered_denominator": 10,
+  "explicit_planned_denominator": 10,
+  "limitations": [
+    "Selected ten-sample example; not representative failure-rate evidence.",
+    "All score dictionaries are empty; scores are not reconstructed from model output.",
+    "Upstream model execution and scorer execution are not repeated.",
+    "No pass@k or pass^k rates are computed; readiness k=1 only."
+  ],
+  "permutation_and_repeat_equal": true,
+  "planned_minus_delivered": 0,
+  "planned_minus_score_available": 10,
+  "score_available_denominator": 0,
+  "score_mapping": {
+    "categorical": {
+      "C": 1,
+      "I": 0
+    },
+    "key": "match"
+  },
+  "selected_ids": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10"
+  ],
+  "source_bytes": 19561,
+  "source_sha256": "6631813cb3cc25908d760d36677925a0e5753d06602c7d97385a4f448bafd9a1",
+  "upstream_headline_denominator": null,
+  "upstream_headline_reason": "Archived results.scores is empty; no headline is asserted."
+}
