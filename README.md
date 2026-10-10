@@ -30,6 +30,34 @@ The synthetic example exits **1**: four expected IDs, one scored, one errored,
 one unscored and one missing. Score-present coverage is 0.25. Exit 0 means a
 complete scored population; exit 2 means invalid input or an I/O failure.
 
+## Agent Acceptance demo
+
+Agent Acceptance is a working demo title for synthetic refund case 1042. Audit
+the supplied evaluation rows with the same offline engine:
+
+```sh
+uv run eval-audit examples/acceptance-manifest.json examples/acceptance-results.jsonl
+uv run python scripts/build_demo.py
+```
+
+Open `site/acceptance.html` locally. The original example remains at
+`site/index.html`, with links between both pages. The refund example declares four
+expected IDs: one scored with **0**, one errored retaining **0.9**, one unscored,
+and one missing. Two of four IDs have a numeric score, so score-present coverage
+is **0.5 (50%)** and the exit code is **1**. Zero is present; an errored record
+retaining a number stays errored.
+
+This is score availability, not refund correctness or task quality. The auditor
+does not decide whether the supplied refund claim is correct, the completion
+observation is fresh, or the agent caused a change. The source text provides
+context for original synthetic, AI-assisted, non-client CC0 fixtures.
+
+The page shows expected-record cards, reasons, provenance, and input hashes. It
+links to `acceptance-report.json` and byte-for-byte copies of the manifest,
+results, and source text. Report hashes cover the manifest and results; a separate
+displayed source SHA-256 covers the source bytes. Hashes show consistency, not
+authenticity. The report JSON contract remains unchanged.
+
 ## Capabilities and limits
 
 Deterministic JSON, readable HTML, input SHA-256 hashes, sorted missing/unexpected
@@ -87,7 +115,7 @@ part of that work, with no claim of research novelty or comparative superiority.
 ## Develop
 
 `just check` runs Ruff, pytest, type checks, schemas and wheel/sdist builds.
-`uv run python scripts/build_demo.py` creates the static executed Pages example.
+`uv run python scripts/build_demo.py` creates both static executed examples locally.
 CLI does not fetch data or call a model. HTML escapes imported text. Existing
 outputs require `--force`; outputs cannot alias inputs. Each output is staged in
 its destination directory and installed atomically. Writes are not a multi-file

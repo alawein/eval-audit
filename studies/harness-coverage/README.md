@@ -7,7 +7,7 @@ example study, not a representative estimate of harness failure rates.
 
 ## Source and planned population
 
-[Pinned archive](https://github.com/UKGovernmentBEIS/inspect_ai/blob/4acfd207ecca8e1c3b754a147c191f2f0f21ba71/tests/scorer/logs/2025-02-11T15-17-00-05-00_popularity_dPiJifoWeEQBrfWsAopzWr.eval)
+[Pinned archive](https://raw.githubusercontent.com/UKGovernmentBEIS/inspect_ai/4acfd207ecca8e1c3b754a147c191f2f0f21ba71/tests/scorer/logs/2025-02-11T15-17-00-05-00_popularity_dPiJifoWeEQBrfWsAopzWr.eval)
 is distributed in Inspect's MIT-licensed repository. Run date: February 11, 2025.
 Downloaded October 8, 2026. Length: 19,561 bytes. SHA-256:
 `6631813cb3cc25908d760d36677925a0e5753d06602c7d97385a4f448bafd9a1`.

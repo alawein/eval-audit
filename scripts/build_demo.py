@@ -1,3 +1,4 @@
+import hashlib
 from pathlib import Path
 
 from eval_audit.contract import load_inputs
@@ -15,8 +16,61 @@ def main() -> None:
     }
     target = Path("site")
     target.mkdir(exist_ok=True)
-    (target / "index.html").write_text(render_html(report), encoding="utf-8")
+    original_page = render_html(
+        report,
+        example={
+            "description": (
+                "Original synthetic coverage example, executed with the offline audit engine. "
+                "CC0 fixtures; no client work or adoption claim."
+            ),
+            "links": {"Agent Acceptance refund demo": "acceptance.html"},
+            "downloads": {"Original report JSON": "report.json"},
+        },
+    )
+    (target / "index.html").write_text(original_page, encoding="utf-8")
     (target / "report.json").write_text(render_json(report), encoding="utf-8")
+
+    manifest, rows, hashes = load_inputs(
+        Path("examples/acceptance-manifest.json"), Path("examples/acceptance-results.jsonl")
+    )
+    report = audit(manifest, rows) | {
+        "inputs": hashes,
+        "provenance": "Synthetic, AI-assisted, non-client",
+    }
+    source = Path("examples/acceptance-source.txt").read_bytes()
+    report_bytes = render_json(report).encode("utf-8")
+    download_files = {
+        "acceptance-report.json": report_bytes,
+        "acceptance-manifest.json": Path("examples/acceptance-manifest.json").read_bytes(),
+        "acceptance-results.jsonl": Path("examples/acceptance-results.jsonl").read_bytes(),
+        "acceptance-source.txt": source,
+    }
+    acceptance_page = render_html(
+        report,
+        manifest=manifest,
+        records=rows,
+        example={
+            "title": "Agent Acceptance",
+            "description": (
+                "Synthetic refund case 1042. This static example was executed with the "
+                "offline audit engine. Scores show availability, not task quality. "
+                "CC0 fixtures; no client work or adoption claim."
+            ),
+            "source_text": source.decode("utf-8"),
+            "source_sha256": hashlib.sha256(source).hexdigest(),
+            "links": {"Original coverage example": "index.html"},
+            "downloads": {
+                "Report JSON": "acceptance-report.json",
+                "Expected-ID manifest": "acceptance-manifest.json",
+                "Result records": "acceptance-results.jsonl",
+                "Supplied source": "acceptance-source.txt",
+            },
+            "download_files": download_files,
+        },
+    )
+    (target / "acceptance.html").write_text(acceptance_page, encoding="utf-8")
+    for name, payload in download_files.items():
+        (target / name).write_bytes(payload)
 
 
 if __name__ == "__main__":
