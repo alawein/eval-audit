@@ -62,8 +62,8 @@ retries, epoch aggregation or aggregate-only reports are supported. Existing
 output safety protections apply to manifests, source logs and score maps.
 
 Shapes checked against the official [Inspect log documentation](https://inspect.aisi.org.uk/eval-logs.html),
-[Inspect ZIP recorder source](https://github.com/UKGovernmentBEIS/inspect_ai/blob/main/src/inspect_ai/log/_recorders/eval.py),
-[lm-harness evaluator](https://github.com/EleutherAI/lm-evaluation-harness/blob/main/lm_eval/evaluator.py),
+[Inspect ZIP recorder source](https://raw.githubusercontent.com/UKGovernmentBEIS/inspect_ai/main/src/inspect_ai/log/_recorders/eval.py),
+[lm-harness evaluator](https://raw.githubusercontent.com/EleutherAI/lm-evaluation-harness/main/lm_eval/evaluator.py),
 and [promptfoo output documentation](https://www.promptfoo.dev/docs/configuration/outputs/).
 Only synthetic fixtures are vendored in tests. Framework evolution may require a
 new adapter version; unsupported structures fail rather than disappearing.

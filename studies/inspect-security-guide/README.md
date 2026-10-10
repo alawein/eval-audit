@@ -5,7 +5,7 @@ not a newly generated dataset or scorer run. The archived task is Inspect's
 small security-guide example. It is useful as a reproducible adapter smoke
 study, not evidence about benchmark-wide failure rates.
 
-Source: [Inspect log at commit 4acfd207](https://github.com/UKGovernmentBEIS/inspect_ai/blob/4acfd207ecca8e1c3b754a147c191f2f0f21ba71/tests/analysis/test_logs/2025-05-12T20-28-26-04-00_security-guide.json).
+Source: [Inspect log at commit 4acfd207](https://raw.githubusercontent.com/UKGovernmentBEIS/inspect_ai/4acfd207ecca8e1c3b754a147c191f2f0f21ba71/tests/analysis/test_logs/2025-05-12T20-28-26-04-00_security-guide.json).
 Upstream code and archived log are distributed in the MIT-licensed Inspect
 repository. Recorded evaluation date: May 12, 2025. Downloaded October 8, 2026.
 The log has model messages, token usage, timings, and grader results. None of
